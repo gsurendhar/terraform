@@ -1,21 +1,26 @@
+# Create a roboshop project instances
 resource "aws_instance" "loops" {
-  # count   = 4
-  # count loop can be work with only LIST TYPE data
-  # when  we use count, count.index is special variable which holds the (var. instances) iteration value, it will change for every iteration 
-  count                  = length(var.instances)
-  ami                    = var.ami_id
-  instance_type          = var.environment == "prod" ? "t3.micro" : "t2.micro"
+  # for each can be only work with MAP TYPE data
+  # for each loops one special type variable is "each" --> each.key and each.value 
+  # for this LIST type data can be converted to map type by using  "toset" or "tomap" function
+  # for_each= toset(var.instances)
+
+  # in var.instances MAP data is provided we can directly use
+  for_each              = var.instances
+  ami                    = data.aws_ami.devops.id
+  instance_type          = each.value
   vpc_security_group_ids = [aws_security_group.allow-all.id]
 
   tags = merge(
     var.common_tags,
     {
-      Name = "roboshop-${var.environment}-${var.instances[count.index]}"
+      Name = "roboshop-${var.environment}-${each.key}"
     }
   )
 
 }
 
+# Create a Security Group
 resource "aws_security_group" "allow-all" {
   name        = var.sg_name
   description = var.sg_descrip

@@ -1,8 +1,8 @@
-variable "ami_id" {
-  type        = string
-  default     = "ami-09c813fb71547fc4f"
-  description = "roboshop practice ami"
-}
+# variable "ami_id" {
+#   type        = string
+#   default     = "ami-09c813fb71547fc4f"
+#   description = "roboshop practice ami"
+# }
 
 variable "instance_type" {
   type    = string
@@ -77,25 +77,4 @@ variable "instances" {
     "payment"   = "t2.micro"
     "dispatch"  = "t2.micro"
   }
-}
-
-variable "ingress_ports" {
-  default = [
-    {
-      from_port = 22
-      to_port   = 22
-    },
-    {
-      from_port = 80
-      to_port   = 80
-    },
-    {
-      from_port = 8080
-      to_port   = 8080
-    },
-    {
-      from_port = 443
-      to_port   = 443
-    }
-  ]
 }

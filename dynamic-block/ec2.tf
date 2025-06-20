@@ -22,18 +22,18 @@ resource "aws_instance" "loops" {
 
 # Create a Security Group
 resource "aws_security_group" "allow-all" {
- 
-    name        = var.sg_name
-    description = var.sg_descrip
-    dynamic ingress {
-      for_each = var.ingress_ports
-      content{
-        from_port        = ingress.value["from_port"]
-        to_port          = ingress.value["to_port"]
-        protocol         = "-1"
-        cidr_blocks      = var.sg_cidr
-        ipv6_cidr_blocks = ["::/0"]
-      }
+
+  name        = var.sg_name
+  description = var.sg_descrip
+  dynamic "ingress" {
+    for_each = var.ingress_ports
+    content {
+      from_port        = ingress.value["from_port"]
+      to_port          = ingress.value["to_port"]
+      protocol         = "-1"
+      cidr_blocks      = var.sg_cidr
+      ipv6_cidr_blocks = ["::/0"]
+    }
 
   }
   egress {

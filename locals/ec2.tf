@@ -1,4 +1,4 @@
-resource "aws_instance" "loops" {
+resource "aws_instance" "roboshop" {
   # count   = 4
   # count loop can be work with only LIST TYPE data
   # when  we use count, count.index is special variable which holds the (var. instances) iteration value, it will change for every iteration 
@@ -8,9 +8,11 @@ resource "aws_instance" "loops" {
   vpc_security_group_ids = [aws_security_group.allow-all.id]
 
   tags = merge(
-    var.common_tags,
+    local.ec2_tags,
     {
-      Name = "roboshop-${var.environment}-${var.instances[count.index]}"
+      # Name = "${var.Project}-${var.environment}-${var.instances[count.index]} "
+      Name = "${local.final_name}-${var.instances[count.index]} "
+      component   = var.instances[count.index]
     }
   )
 
