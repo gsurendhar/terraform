@@ -1,6 +1,6 @@
 resource "aws_instance" "roboshop"{
     ami             = var.ami_id
-    instance_type   = var.environment=="prod"? "t3.small" : "t2.micro"
+    instance_type   = var.environment=="prod"? "t3.micro" : "t2.micro"
     vpc_security_group_ids = [aws_security_group.allow-all.id]
 
         tags    = var.ec2_tags
